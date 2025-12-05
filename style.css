@@ -1,68 +1,78 @@
-/* Diseño rojo/negro estilo Nagasaki */
-
 body {
-  margin: 0;
-  font-family: 'Arial', sans-serif;
-  background-color: #1a1a1a;
-  color: #fff;
+    background: #111;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+    font-family: Arial, sans-serif;
 }
 
 .chat-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+    width: 400px;
+    height: 600px;
+    background: #1a1a1a;
+    border-radius: 12px;
+    border: 2px solid #b30000;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-header {
+    background: #b30000;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    border-bottom: 3px solid #7a0000;
 }
 
 .chat-box {
-  background-color: #111;
-  width: 90%;
-  max-width: 500px;
-  height: 80vh;
-  border-radius: 15px;
-  padding: 15px;
-  overflow-y: auto;
-  box-shadow: 0 0 15px #ff0000;
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
 }
 
-.bot-message, .user-message {
-  background-color: #1a1a1a;
-  border-radius: 10px;
-  padding: 10px 15px;
-  margin: 10px 0;
-  line-height: 1.5;
+.bot-msg, .user-msg {
+    max-width: 78%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    line-height: 1.4;
 }
 
-.bot-message {
-  background-color: #ff0000;
-  color: #fff;
-  text-align: left;
+.bot-msg {
+    background: #262626;
+    color: #fff;
+    border-left: 5px solid #b30000;
 }
 
-.user-message {
-  background-color: #333;
-  color: #fff;
-  text-align: right;
+.user-msg {
+    background: #b30000;
+    color: white;
+    margin-left: auto;
+    border-right: 5px solid #7a0000;
 }
 
-.botones {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 10px;
+.button-box {
+    padding: 12px;
+    background: #111;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    border-top: 1px solid #333;
 }
 
-.botones button {
-  background-color: #000;
-  color: #ff0000;
-  border: 2px solid #ff0000;
-  border-radius: 8px;
-  padding: 8px 12px;
-  margin: 5px;
-  cursor: pointer;
-  transition: 0.2s;
+button {
+    background: #b30000;
+    color: white;
+    border: none;
+    padding: 12px;
+    flex: 1 1 45%;
+    border-radius: 6px;
+    font-weight: bold;
 }
 
-.botones button:hover {
-  background-color: #ff0000;
-  color: #000;
+button:hover {
+    background: #d40000;
+    cursor: pointer;
 }
