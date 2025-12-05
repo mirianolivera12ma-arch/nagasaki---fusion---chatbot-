@@ -1,182 +1,170 @@
-// Funciones del chatbot
+const chat = document.getElementById("chat");
+const buttons = document.getElementById("buttons");
 
-function mostrarSeccion(seccion) {
-  let mensaje = '';
-  switch(seccion) {
-    case 'makisClásicos':
-      mensaje = `🍣 Makis Clásicos - Los clásicos de siempre, con ingredientes frescos y sabor auténtico.
-“Desde el primer bocado, siente la tradición japonesa con un toque fusión piurano.”
-
-Opciones:
-- Ver lista completa de makis con precios
-- Volver al menú`;
-      crearBotones([
-        {texto: "Ver lista completa de makis", accion: verMakis},
-        {texto: "Volver al menú", accion: volverMenu}
-      ]);
-      break;
-
-    case 'makisEspeciales':
-      mensaje = `🔥 Makis Especiales - Combinaciones únicas y atrevidas para los paladares más exigentes.
-“Atrévete a probar nuestros makis que llevan tu paladar a otra dimensión.”
-
-Opciones:
-- Ver lista completa de makis especiales
-- Volver al menú`;
-      crearBotones([
-        {texto: "Ver lista completa de makis especiales", accion: verMakisEspeciales},
-        {texto: "Volver al menú", accion: volverMenu}
-      ]);
-      break;
-
-    case 'barcos':
-      mensaje = `🚢 Barcos - Opciones para compartir y sorprender.
-“Porque compartir también es saborear. Descubre nuestros barcos llenos de fusión y frescura.”
-
-Opciones:
-- Ver lista completa de barcos
-- Volver al menú`;
-      crearBotones([
-        {texto: "Ver lista completa de barcos", accion: verBarcos},
-        {texto: "Volver al menú", accion: volverMenu}
-      ]);
-      break;
-
-    case 'bebidas':
-      mensaje = `🍹 Bebidas - Refrescos, cocteles y más para acompañar tu comida.
-“El complemento perfecto para cada bocado, con el toque único de Nasnagasaki Fusión Piura.”
-
-Opciones:
-- Ver lista completa de bebidas
-- Volver al menú`;
-      crearBotones([
-        {texto: "Ver lista completa de bebidas", accion: verBebidas},
-        {texto: "Volver al menú", accion: volverMenu}
-      ]);
-      break;
-  }
-  agregarMensaje(mensaje, 'bot');
+function addBot(text) {
+    let m = document.createElement("div");
+    m.className = "bot-msg";
+    m.innerText = text;
+    chat.appendChild(m);
+    chat.scrollTop = chat.scrollHeight;
 }
 
-function crearBotones(listaBotones) {
-  const chat = document.getElementById('chat');
-  const div = document.createElement('div');
-  div.classList.add('bot-message', 'botones');
-  listaBotones.forEach(b => {
-    const btn = document.createElement('button');
-    btn.innerText = b.texto;
-    btn.onclick = b.accion;
-    div.appendChild(btn);
-  });
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
+function addUser(text) {
+    let m = document.createElement("div");
+    m.className = "user-msg";
+    m.innerText = text;
+    chat.appendChild(m);
+    chat.scrollTop = chat.scrollHeight;
 }
 
-function agregarMensaje(texto, tipo) {
-  const chat = document.getElementById('chat');
-  const div = document.createElement('div');
-  div.classList.add(tipo === 'bot' ? 'bot-message' : 'user-message');
-  div.innerText = texto;
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
+function clearButtons() {
+    buttons.innerHTML = "";
 }
 
-function volverMenu() {
-  mostrarSeccion('menu');
+function addButton(text, fn) {
+    const b = document.createElement("button");
+    b.innerText = text;
+    b.onclick = fn;
+    buttons.appendChild(b);
 }
 
-function verMakis() {
-  agregarMensaje(`Lista de Makis Clásicos:
-Guacamole - S/25
-Acevichado - S/25
-Avocado - S/25
-Tropical - S/25
-Chicken Furai - S/25
-Criollazo - S/25
-Ebi Crispy - S/25
-Grill Cheese - S/25
-Parrillero de Salmón - S/25
-Oriental - S/25
-Teriyaki Roll - S/25
-Tarta Roll - S/25
-Ají de Gallina Roll - S/25
-Dragón Roll - S/25
-Noriko Roll - S/25
-Mango Roll - S/25
-Cebichado Tropical - S/25`, 'bot');
+function mainMenu() {
+    clearButtons();
+    addBot("Perfecto 😄✨\nAquí tienes nuestras opciones del menú:");
+
+    addButton("Makis Clásicos 🍣", showClasicos);
+    addButton("Makis Especiales 🔥", showEspeciales);
+    addButton("Barcos 🚢", showBarcos);
+    addButton("Bebidas 🍹", showBebidas);
+    addButton("Promos 🎉", showPromos);
+    addButton("Delivery 🛵", showDelivery);
+    addButton("Redes Sociales 📱", showRedes);
 }
 
-function verMakisEspeciales() {
-  agregarMensaje(`Lista de Makis Especiales:
-Nagasaki Furai - S/28
-Crispy Roll - S/28
-Crazy Roll - S/28
-Nagasaki Hawaiano - S/28
-Parmesano Roll - S/28
-Tako Roll - S/28
-Nigiri Ebi Furai - S/28
-Nagasaki - S/28
-Lomo Saltado Roll - S/28
-Cebiche Power Roll - S/28
-Anticuchero - S/28
-Batayaki Roll - S/28`, 'bot');
+// 📌 Espera que el usuario diga “hola”
+window.onload = () => {
+    addBot("¡Hola! 👋 Soy el *Chefcito Nagasaki* 🍣🔥\n\nEscríbeme **hola** para comenzar.");
+};
+
+function processText(text) {
+    text = text.toLowerCase();
+
+    if (text.includes("hola") || text.includes("buenas") || text.includes("ola")) {
+        addUser(text);
+        addBot("¡Qué gusto tenerte por aquí! 😄🍣🔥");
+        mainMenu();
+        return;
+    }
+
+    addUser(text);
+    addBot("No entendí eso 😅\nEscribe **hola** para empezar.");
 }
 
-function verBarcos() {
-  agregarMensaje(`Lista de Barcos:
-Barcos Nagasaki - Makis (5 Tablas) - S/110
-Barcos Nagasaki - Makis (7 Tablas) - S/150
-Barcos Nagasaki - Makis (9 Tablas) - S/180
-Barcos Nagasaki - Makis (13 Tablas) - S/260
-Barcos Nagasaki - Alitas (30 Piezas) - S/110
-Barcos Nagasaki - Alitas (50 Piezas) - S/170
-Barcos Nagasaki - Makis y Alitas (4 Tablas) - S/140
-Barcos Nagasaki - Makis y Alitas (8 Tablas) - S/260
-Barco Criollazo - S/100
-Barco Marino - S/100
-Barco Umitochi - S/100`, 'bot');
+document.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+        const input = document.getElementById("userInputField");
+    }
+});
+
+// --- SECCIONES --- //
+
+function showClasicos() {
+    clearButtons();
+    addBot("🍣 *Makis Clásicos*");
+
+    addBot("Acevichado – S/25\nRoll fresquito con ceviche clásico encima.");
+    addBot("Mango Roll – S/25\nDulce, suave y frutal.");
+    addBot("Guacamole – S/25\nPollo, queso crema y guacamole 😋");
+
+    addButton("Más clásicos", showClasicos2);
+    addButton("Volver", mainMenu);
 }
 
-function verBebidas() {
-  agregarMensaje(`Lista de Bebidas:
-Cuba Libre - S/20
-Laguna Azul - S/20
-Vodka Sunrise - S/20
-Machupicchu - S/20
-Tinto de Verano - S/20
-Piña Colada - S/20
-Hawaiian Blue - S/20
-Algarrobina - S/20
-Amor en Llamas - S/20
-Sex on the Beach - S/20
-Refrescos de Frutas (Litro) - S/15
-Frozen de Frutas - S/20
-Refrescante - S/15`, 'bot');
+function showClasicos2() {
+    clearButtons();
+    addBot("Más clásicos 🍣");
+
+    addBot("Avocado – S/25\nEbi furai + palta cremosa.");
+    addBot("Chicken Furai – S/25\nPollo crocante y palta.");
+    addBot("Dragón Roll – S/25\nEbi furai con salsa dragón 🔥.");
+
+    addButton("Volver", mainMenu);
 }
 
-// Sección menú principal
-function mostrarSeccion(seccion) {
-  if(seccion === 'menu') {
-    agregarMensaje("¡Hola de nuevo! 👋 ¿Qué deseas conocer?", 'bot');
-    crearBotones([
-      {texto: "Makis Clásicos 🍣", accion: () => mostrarSeccion('makisClásicos')},
-      {texto: "Makis Especiales 🔥", accion: () => mostrarSeccion('makisEspeciales')},
-      {texto: "Barcos 🚢", accion: () => mostrarSeccion('barcos')},
-      {texto: "Bebidas 🍹", accion: () => mostrarSeccion('bebidas')}
-    ]);
-  } else {
-    mostrarSeccionOriginal(seccion);
-  }
+function showEspeciales() {
+    clearButtons();
+    addBot("🔥 *Makis Especiales del Chef*");
+
+    addBot("Nagasaki Furai – S/28\nQueso crema + ebi furai + topping de atún.");
+    addBot("Crispy Roll – S/28\nCrocante con toque dulce.");
+
+    addButton("Más especiales", showEspeciales2);
+    addButton("Volver", mainMenu);
 }
 
-// Función original para manejar otras secciones
-function mostrarSeccionOriginal(seccion) {
-  switch(seccion) {
-    case 'makisClásicos':
-    case 'makisEspeciales':
-    case 'barcos':
-    case 'bebidas':
-      // ya manejado arriba
-      break;
-  }
+function showEspeciales2() {
+    clearButtons();
+    addBot("Más especiales 🔥");
+
+    addBot("Lomo Saltado Roll – S/28\nFusión peruano-japonesa.");
+    addBot("Tako Roll – S/28\nPulpo al olivo + ebi.");
+
+    addButton("Volver", mainMenu);
+}
+
+function showBarcos() {
+    clearButtons();
+    addBot("🚢 *Barcos Nagasaki*");
+
+    addBot("60 cortes – S/110\nPerfecto para compartir.");
+    addBot("84 cortes – S/150\nPara grupos y antojos grandes 😋");
+
+    addButton("Volver", mainMenu);
+}
+
+function showBebidas() {
+    clearButtons();
+    addBot("🍹 *Bebidas y Tragos*");
+
+    addBot("Cerveza Pilsen – S/8");
+    addBot("Frozen de frutas – S/20");
+    addBot("Chilcano clásico – S/20");
+
+    addButton("Más bebidas", showBebidas2);
+    addButton("Volver", mainMenu);
+}
+
+function showBebidas2() {
+    clearButtons();
+    addBot("🍸 Más bebidas");
+
+    addBot("Sangría Clásica – S/40");
+    addBot("Piña Colada – S/20");
+    addBot("Moai – S/25");
+
+    addButton("Volver", mainMenu);
+}
+
+function showPromos() {
+    clearButtons();
+    addBot("🎉 *Promociones activas*");
+
+    addBot("Festival Alitas – S/60");
+    addBot("Piqueo Hot – S/60");
+
+    addButton("Volver", mainMenu);
+}
+
+function showDelivery() {
+    clearButtons();
+    addBot("🛵 *Delivery*\nDisponible en Piura y Castilla.\nPedidos por *Rappi* y *PedidosYa*.");
+
+    addButton("Volver", mainMenu);
+}
+
+function showRedes() {
+    clearButtons();
+    addBot("📱 *Redes Oficiales*\nFacebook: Negasaki Fusion\nInstagram: @nagasaki_fusion_piura\nTikTok: @negasakifusion");
+
+    addButton("Volver", mainMenu);
 }
